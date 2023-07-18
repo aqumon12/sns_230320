@@ -62,7 +62,7 @@
 			
 			$.ajax({
 				// request
-				url:"/uesr/is_duplicated_id"
+				url:"/user/is_duplicated_id"
 				, data:{"loginId":loginId}
 			
 				// response
@@ -75,6 +75,11 @@
 			});
 		});
 		
+		// 회원가입
+		$("#signUpForm").on('submit', function(e) {
+			e.preventDefault(e);
+			alert("b");
+		});
 		
 	});
 </script>
