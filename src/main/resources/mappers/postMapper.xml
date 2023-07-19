@@ -9,4 +9,17 @@
  		FROM
  			`post`
  	</select>
+ 	
+ 	<select id="selectLoginId" resultType="String">
+ 		SELECT 
+ 			A.loginId
+		FROM 
+			`user` AS A
+		JOIN
+			`post` AS B
+		ON A.id = B.userId
+ 	
+ 	</select>
  </mapper>
+ 
+ 
