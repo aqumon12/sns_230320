@@ -80,7 +80,7 @@
 					<%-- 댓글 쓰기 --%>
 					<div class="comment-write d-flex border-top mt-2">
 						<input type="text" class="form-control border-0 mr-2 comment-input" placeholder="댓글 달기"/> 
-						<button type="button" class="comment-btn btn btn-light">게시</button>
+						<button type="button" class="comment-btn btn btn-light" data-post-id="${post.id}">게시</button>
 					</div>
 				</div> <%--// 댓글 목록 끝 --%>
 			</div> <%--// 카드1 끝 --%>
@@ -114,6 +114,23 @@ $(document).ready(function() {
 		
 		// 유효성 통과한 이미지는 상자에 업로드 된 파일 이름 노출
 		$('#fileName').text(fileName);
+	});
+	
+	$('.comment-btn').on('click', function(e) {
+		e.preventDefault();
+		let postId = $(this).data('post-id');
+		
+		// 댓글 내용 가져오기
+		let content = $('.comment-input').val();
+		
+		$.ajax({
+			url:"/comment/create"
+			, data:{"postId":postId, "content": content}
+		
+			, success:function(data) {
+				
+			}
+		});
 	});
 });
 </script>

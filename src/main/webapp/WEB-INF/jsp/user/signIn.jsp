@@ -53,13 +53,13 @@
 			.done(function(data) { //response
 				if (data.code == 1) {
 					// 성공
-					locaion.href = "/post/post_list_view";
+					location.href = "/timeline/timeline_view";
 				} else {
 					// 실패
 					alert(data.errorMessage);
 				}
 			});	
-			}
+			
 		})
 	});
 
