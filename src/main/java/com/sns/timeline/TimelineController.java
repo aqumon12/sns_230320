@@ -14,10 +14,14 @@ import com.sns.comment.bo.CommentBO;
 import com.sns.comment.domain.Comment;
 import com.sns.post.bo.PostBO;
 import com.sns.post.entity.PostEntity;
+import com.sns.user.bo.UserBO;
+import com.sns.user.entity.UserEntity;
 
 @RequestMapping("/timeline")
-@Controller
+@Controller	
 public class TimelineController {
+	@Autowired
+	private UserBO userBO;
 	
 	@Autowired
 	private PostBO postBO;
@@ -32,6 +36,13 @@ public class TimelineController {
 		
 		// postList (jpa로 가져오기)
 		List<PostEntity> postList = postBO.getPostList();
+		
+		
+		// user 정보
+		List<UserEntity> userList = userBO.getUserList();
+		
+		model.addAttribute("userList", userList);
+		model.addAttribute("commentList", commentList);
 		model.addAttribute("postList", postList);
 		model.addAttribute("view", "timeline/timeline");
 		return "template/layout";

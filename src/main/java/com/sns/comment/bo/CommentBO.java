@@ -14,11 +14,13 @@ public class CommentBO {
 	@Autowired
 	private CommentMapper commentMapper;
 	
-	public int addComment(int userId, int postId, String userLoginId, String content) {
+	public int addComment(int userId, int postId, String content) {
 		return commentMapper.insertComment(userId, postId, content);
 	}
 	
 	public List<Comment> getCommentList() {
 		return commentMapper.selectCommentList();
 	}
+	
+	
 }

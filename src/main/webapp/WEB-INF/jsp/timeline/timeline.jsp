@@ -26,6 +26,7 @@
 		
 		<%-- 타임라인 영역 --%>
 		<div class="timeline-box my-5">
+		
 		<c:forEach items="${postList}" var="post">
 		
 			<%-- 카드1 --%>
@@ -66,17 +67,25 @@
 
 				<%-- 댓글 목록 --%>
 				<div class="card-comment-list m-2">
+					<c:forEach items="${commentList}" var="comment">
+						<c:if test="${comment.postId eq post.id}">
 					<%-- 댓글 내용들 --%>
 					<div class="card-comment m-1">
-						<span class="font-weight-bold">댓글쓴이</span>
-						<span>댓글 내용</span>
+						<c:forEach items="${userList}" var="user">
+							<c:if test="${user.id eq comment.userId}">
+								<span class="font-weight-bold">${user.loginId}</span>
+							</c:if>
+						</c:forEach>
+						<span>${comment.content}</span>
 
 						<%-- 댓글 삭제 버튼 --%>
 						<a href="#" class="comment-del-btn">
 							<img src="https://www.iconninja.com/files/603/22/506/x-icon.png" width="10px" height="10px">
 						</a>
 					</div>
-
+						</c:if>
+					</c:forEach>
+					
 					<%-- 댓글 쓰기 --%>
 					<div class="comment-write d-flex border-top mt-2">
 						<input type="text" class="form-control border-0 mr-2 comment-input" placeholder="댓글 달기"/> 
@@ -121,14 +130,23 @@ $(document).ready(function() {
 		let postId = $(this).data('post-id');
 		
 		// 댓글 내용 가져오기
-		let content = $('.comment-input').val();
+		let content = $(this).prev(".comment-input").val();
 		
 		$.ajax({
-			url:"/comment/create"
+			type:"post"
+			, url:"/comment/create"
 			, data:{"postId":postId, "content": content}
 		
 			, success:function(data) {
-				
+				if (data.code == 1) {
+					location.href= "/timeline/timeline_view";
+				} else if (data.code == 300) {
+					alert(data.errorMessage);
+					location.href= "/user/sign_in_view";
+				} else {
+					alert(data.errorMessage);
+					return;
+				}
 			}
 		});
 	});

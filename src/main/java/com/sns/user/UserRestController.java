@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,6 +47,27 @@ public class UserRestController {
 	}
 	
 	// signUp method
+	@PostMapping("/sign_up")
+	public Map<String, Object> signUp(
+			@RequestParam("loginId") String loginId,
+			@RequestParam("password") String password,
+			@RequestParam("name") String name,
+			@RequestParam("email") String email) {
+		
+		String hashedPassword = EncryptUtils.md5(password);
+		Integer userId = userBO.addUser(loginId, hashedPassword, name, email);
+		
+		Map<String, Object> result = new HashMap<>();
+		if (userId != null) {
+			// 응답
+			result.put("code", 1);
+			result.put("result", "성공");
+		} else {
+			result.put("code", 500);
+			result.put("errorMessage", "회원가입에 실패했습니다.");
+		}
+		return result;
+	}
 	
 	
 	/**
