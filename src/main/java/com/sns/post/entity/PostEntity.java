@@ -32,8 +32,6 @@ public class PostEntity {
 	@Column(name = "userId")
 	private int userId;
 	
-	private String subject;
-	
 	private String content;
 	
 	@Column(name = "imagePath")

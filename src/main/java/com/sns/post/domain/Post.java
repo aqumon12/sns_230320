@@ -8,7 +8,6 @@ import lombok.Data;
 public class Post {
 	private int id;
 	private int userId;
-	private String subject;
 	private String content;
 	private String imagePath;
 	private ZonedDateTime createdAt;
