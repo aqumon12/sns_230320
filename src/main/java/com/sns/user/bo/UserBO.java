@@ -1,7 +1,5 @@
 package com.sns.user.bo;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,8 +30,8 @@ public class UserBO {
 		return userRepository.findByLoginIdAndPassword(loginId, password);
 	}
 	
-	public List<UserEntity> getUserList() {
-		return userRepository.findAll();
+	
+	public UserEntity getUserEntityById(int id) {
+		return userRepository.findById(id).orElse(null);
 	}
-
 }

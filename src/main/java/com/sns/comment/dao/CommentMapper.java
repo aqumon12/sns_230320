@@ -15,6 +15,5 @@ public interface CommentMapper {
 			@Param("postId") int postId, 
 			@Param("content") String content);
 
-	public List<Comment> selectCommentList();
-	
+	public List<Comment> selectCommentListByPostId(int postid);
 }

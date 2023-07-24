@@ -6,7 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,7 +46,14 @@ public class UserRestController {
 		return result;
 	}
 	
-	// signUp method
+	/**
+	 * 회원가입 API
+	 * @param loginId
+	 * @param password
+	 * @param name
+	 * @param email
+	 * @return
+	 */
 	@PostMapping("/sign_up")
 	public Map<String, Object> signUp(
 			@RequestParam("loginId") String loginId,
@@ -93,7 +100,6 @@ public class UserRestController {
 			session.setAttribute("userId", userEntity.getId());
 			session.setAttribute("userLoginId", userEntity.getLoginId());
 			session.setAttribute("userName", userEntity.getName());
-			
 			result.put("code", 1);
 			result.put("result", "성공");
 		} else {

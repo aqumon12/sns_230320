@@ -27,13 +27,13 @@
 		<%-- 타임라인 영역 --%>
 		<div class="timeline-box my-5">
 		
-		<c:forEach items="${postList}" var="post">
+		<c:forEach items="${cardList}" var="card">
 		
 			<%-- 카드1 --%>
 			<div class="card border rounded mt-3">
 				<%-- 글쓴이, 더보기(삭제) --%>
 				<div class="p-2 d-flex justify-content-between">
-					<span class="font-weight-bold">글쓴이</span>
+					<span class="font-weight-bold">${card.user.loginId}</span>
 
 					<%-- 더보기 ... --%>
 					<a href="#" class="more-btn">
@@ -43,7 +43,7 @@
 
 				<%-- 카드 이미지 --%>
 				<div class="card-img">
-					<img src="${post.imagePath}" class="w-100" height="600" alt="본문 이미지">
+					<img src="${card.post.imagePath}" class="w-100" height="600" alt="본문 이미지">
 				</div>
 
 				<%-- 좋아요 --%>
@@ -56,10 +56,10 @@
 
 				<%-- 글 --%>
 				<div class="card-post m-3">
-					<span class="font-weight-bold">글쓴이</span>
-					<span>${post.content}</span>
+					<span class="font-weight-bold">${card.user.loginId}</span>
+					<span>${card.post.content}</span>
 				</div>
-
+				
 				<%-- 댓글 제목 --%>
 				<div class="card-comment-desc border-bottom">
 					<div class="ml-3 mb-1 font-weight-bold">댓글</div>
@@ -67,29 +67,24 @@
 
 				<%-- 댓글 목록 --%>
 				<div class="card-comment-list m-2">
-					<c:forEach items="${commentList}" var="comment">
-						<c:if test="${comment.postId eq post.id}">
+					<c:forEach items="${card.commentList}" var="comment">
 					<%-- 댓글 내용들 --%>
 					<div class="card-comment m-1">
-						<c:forEach items="${userList}" var="user">
-							<c:if test="${user.id eq comment.userId}">
-								<span class="font-weight-bold">${user.loginId}</span>
-							</c:if>
-						</c:forEach>
-						<span>${comment.content}</span>
-
+								<span class="font-weight-bold">${comment.user.loginId}</span>
+						<span>${comment.comment.content}</span>
+						<c:if test="${comment.user.id eq userId}">
 						<%-- 댓글 삭제 버튼 --%>
 						<a href="#" class="comment-del-btn">
 							<img src="https://www.iconninja.com/files/603/22/506/x-icon.png" width="10px" height="10px">
 						</a>
-					</div>
 						</c:if>
+					</div>
 					</c:forEach>
-					
+									
 					<%-- 댓글 쓰기 --%>
 					<div class="comment-write d-flex border-top mt-2">
 						<input type="text" class="form-control border-0 mr-2 comment-input" placeholder="댓글 달기"/> 
-						<button type="button" class="comment-btn btn btn-light" data-post-id="${post.id}">게시</button>
+						<button type="button" class="comment-btn btn btn-light" data-post-id="${card.post.id}">게시</button>
 					</div>
 				</div> <%--// 댓글 목록 끝 --%>
 			</div> <%--// 카드1 끝 --%>
@@ -174,14 +169,16 @@ $(document).ready(function() {
 	
 	
 	
-	
-	$('.comment-btn').on('click', function(e) {
-		e.preventDefault();
+	// 댓글 작성
+	$('.comment-btn').on('click', function() {
+		// alert('111');
 		let postId = $(this).data('post-id');
+		// alert(postId);
 		
 		// 댓글 내용 가져오기
-		let content = $(this).prev(".comment-input").val();
-		
+		let content = $(this).prev().val().trim();
+		// let content = $(this).siblings('input').val().trim();
+		// alert(content);		
 		$.ajax({
 			type:"post"
 			, url:"/comment/create"
@@ -199,6 +196,11 @@ $(document).ready(function() {
 				}
 			}
 		});
+	});
+	
+	// 댓글삭제
+	$('.comment-del-btn').on('click', function() {
+		// 댓글삭제버튼에 comment-id 담아서 ajax로 넘기기
 	});
 	
 	

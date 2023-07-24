@@ -22,7 +22,7 @@
  		)
  	</insert>
  	
- 	<select id="selectCommentList" resultType="com.sns.comment.domain.Comment">
+ 	<select id="selectCommentListByPostId" parameterType="int" resultType="com.sns.comment.domain.Comment">
  		SELECT
  			`id`
 			, `postId`
@@ -32,5 +32,6 @@
 			, `updatedAt`
  		FROM
  			`comment`
+ 		WHERE `postId` = #{postId}
  	</select>
  </mapper>
