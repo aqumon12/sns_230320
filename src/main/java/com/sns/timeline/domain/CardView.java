@@ -20,8 +20,11 @@ public class CardView {
 	
 	// 댓글들
 	private List<CommentView> commentList;
-	// 좋아요들
+	
+	// 좋아요들 개수
+	private int likeCount;
 	
 	// 내가 좋아요를 눌렀는지 여부
+	private boolean filledLike; // 메소드명이 is로 시작되면 Getter, setter 명이 다르게 만들어짐
 
 }

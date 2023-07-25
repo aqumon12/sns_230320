@@ -48,10 +48,17 @@
 
 				<%-- 좋아요 --%>
 				<div class="card-like m-3">
-					<a href="#" class="like-btn">
-						<img src="https://www.iconninja.com/files/214/518/441/heart-icon.png" width="18" height="18" alt="filled heart">
+					<a href="#" class="like-btn" data-post-id="${card.post.id}">
+						<c:choose>
+							<c:when test="${card.filledLike == false}">
+								<img src="https://www.iconninja.com/files/214/518/441/heart-icon.png" width="18" height="18" alt="filled heart">
+							</c:when>
+							<c:otherwise>
+								<img src="https://www.iconninja.com/files/527/809/128/heart-icon.png" width="18" height="18" alt="filled heart">
+							</c:otherwise>
+						</c:choose>
 					</a>
-					좋아요 100개
+					좋아요 ${card.likeCount}개
 				</div>
 
 				<%-- 글 --%>
@@ -67,14 +74,15 @@
 
 				<%-- 댓글 목록 --%>
 				<div class="card-comment-list m-2">
-					<c:forEach items="${card.commentList}" var="comment">
 					<%-- 댓글 내용들 --%>
+					<c:forEach items="${card.commentList}" var="commentView">
 					<div class="card-comment m-1">
-								<span class="font-weight-bold">${comment.user.loginId}</span>
-						<span>${comment.comment.content}</span>
-						<c:if test="${comment.user.id eq userId}">
-						<%-- 댓글 삭제 버튼 --%>
-						<a href="#" class="comment-del-btn">
+						<span class="font-weight-bold">${commentView.user.loginId}</span>
+						<span>${commentView.comment.content}</span>
+						
+						<%-- 댓글 삭제 버튼 - 로그인 된 사람의 댓글의 댓글일 때 삭제 버튼 노출--%>
+						<c:if test="${commentView.comment.userId eq userId}">
+						<a href="#" class="comment-del-btn" data-comment-id="${commentView.comment.id}">
 							<img src="https://www.iconninja.com/files/603/22/506/x-icon.png" width="10px" height="10px">
 						</a>
 						</c:if>
@@ -199,10 +207,53 @@ $(document).ready(function() {
 	});
 	
 	// 댓글삭제
-	$('.comment-del-btn').on('click', function() {
+	$('.comment-del-btn').on('click', function(e) {
 		// 댓글삭제버튼에 comment-id 담아서 ajax로 넘기기
+		e.preventDefault();
+		let commentId = $(this).data('comment-id');
+		// alert(commentId);
+		
+		$.ajax({
+			type:"delete"
+			, url:"/comment/delete"
+			, data:{"commentId":commentId}
+			, success:function(data) {
+				if (data.code == 1) {
+					location.reload(true);
+				} else {
+					alert(data.errorMessage);
+				}
+			}
+			, error:function(request, status, error) {
+				alert("댓글 삭제 실패했습니다.");
+			}
+		});
 	});
 	
+	// 좋아요 토글
+	$('.like-btn').on('click', function(e) {
+		e.preventDefault();
+		// 로그인 체크
+		/* let userId = "${userId}";
+		alert(userId); */
+		
+		let postId = $(this).data('post-id');
+		
+		$.ajax({
+			url:"/like/" + postId
+			, success:function(data) {
+				if (data.code == 1) {
+					location.reload(true);
+				} else if (data.code == 300) {
+					alert(data.errorMessage);
+					location.href = "/user/sign_in_view";
+				}
+			}
+			, error:function(request, status, error) {
+				alert("좋아요/해제에 실패했습니다.");
+			}
+		})
+	})
 	
 });
 </script>
