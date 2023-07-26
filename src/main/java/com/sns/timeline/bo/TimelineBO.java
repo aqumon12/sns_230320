@@ -3,6 +3,8 @@ package com.sns.timeline.bo;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,12 +34,11 @@ public class TimelineBO {
 	
 	// input: X
 	// output: List<CardView>
-	public List<CardView> generateCardViewList() {
+	public List<CardView> generateCardViewList(int userId) {
 		List<CardView> cardViewList = new ArrayList<>();
 
 		// 글 목록 가져오기
 		List<PostEntity> postList = postBO.getPostList();
-
 		// 글 목록 반복문 순회
 		// postEntity => cardView => cardViewList 에 담는다.
 		for (PostEntity post : postList) {
@@ -60,7 +61,7 @@ public class TimelineBO {
 			card.setLikeCount(count);
 			
 			// 좋아요 눌렀는지 여부
-			boolean likeOrNot = likeBO.likeOrNot(post.getId(), post.getUserId());
+			boolean likeOrNot = likeBO.likeOrNot(post.getId(), userId);
 			card.setFilledLike(likeOrNot);
 			
 			// **** cardViewList에 담는다.

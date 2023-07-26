@@ -51,7 +51,7 @@
 					<a href="#" class="like-btn" data-post-id="${card.post.id}">
 						<c:choose>
 							<c:when test="${card.filledLike == false}">
-								<img src="https://www.iconninja.com/files/214/518/441/heart-icon.png" width="18" height="18" alt="filled heart">
+								<img src="https://www.iconninja.com/files/214/518/441/heart-icon.png" width="18" height="18" alt="empty heart">
 							</c:when>
 							<c:otherwise>
 								<img src="https://www.iconninja.com/files/527/809/128/heart-icon.png" width="18" height="18" alt="filled heart">
