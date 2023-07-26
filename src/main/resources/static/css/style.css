@@ -1,5 +1,5 @@
 @charset "UTF-8";
-header {height: 100px;}
+header {height:80px; background-color:#2E9AFE;}
 .contents {min-height:500px;}
 footer {height:100px;}
 

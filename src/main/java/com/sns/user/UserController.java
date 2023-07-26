@@ -45,6 +45,6 @@ public class UserController {
 		session.removeAttribute("userName");
 		
 		// 로그인 화면으로 이동 => redirect
-		return "redirect:/user/sign_in_view";
+		return "redirect:/timeline/timeline_view";
 	}
 }

@@ -45,19 +45,21 @@
 				<div class="card-img">
 					<img src="${card.post.imagePath}" class="w-100" height="600" alt="본문 이미지">
 				</div>
-
+				
 				<%-- 좋아요 --%>
 				<div class="card-like m-3">
-					<a href="#" class="like-btn" data-post-id="${card.post.id}">
-						<c:choose>
-							<c:when test="${card.filledLike == false}">
-								<img src="https://www.iconninja.com/files/214/518/441/heart-icon.png" width="18" height="18" alt="empty heart">
-							</c:when>
-							<c:otherwise>
-								<img src="https://www.iconninja.com/files/527/809/128/heart-icon.png" width="18" height="18" alt="filled heart">
-							</c:otherwise>
-						</c:choose>
-					</a>
+					<%-- 좋아요가 눌려져 있지 않을때 or 비로그인 => 빈 하트 --%>
+					<c:if test="${card.filledLike == false}">
+						<a href="#" class="like-btn" data-post-id="${card.post.id}">
+							<img src="https://www.iconninja.com/files/214/518/441/heart-icon.png" width="18" height="18" alt="filled heart">
+						</a>
+					</c:if>
+					<%-- 좋아요가 눌려져 있을때 => 빈 하트 --%>
+					<c:if test="${card.filledLike}">
+						<a href="#" class="like-btn" data-post-id="${card.post.id}">
+							<img src="https://www.iconninja.com/files/527/809/128/heart-icon.png" width="18" height="18" alt="empty heart">
+						</a>
+					</c:if>
 					좋아요 ${card.likeCount}개
 				</div>
 

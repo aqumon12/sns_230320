@@ -3,6 +3,7 @@
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
  <mapper namespace="com.sns.like.dao.LikeMapper">
+ 	<!--  
  	<select id="selectLikeCountByPostIdUserId" parameterType="map" resultType="int">
  		SELECT
  			COUNT(*)
@@ -11,6 +12,32 @@
 		WHERE 
 			`postId` = #{postId}
 			AND `userId` = #{userId}
+ 	</select>
+ 	
+ 	<select id="selectLikeCountByPostId" parameterType="int" resultType="int">
+ 		SELECT
+ 			COUNT(*)
+		FROM
+			`like`
+		WHERE 
+			`postId` = #{postId}
+ 	</select>
+ 	-->
+ 	
+ 	<!--  likeCount 쿼리 하나로 합치기 -->
+ 	<select id="selectLikeCountPostIdOrUserId" 
+ 	parameterType="map" resultType="int">
+ 		SELECT
+ 			COUNT(*)
+		FROM
+			`like`
+		WHERE 
+			`postId` = #{postId}
+			<if test="userId != null">
+			AND `userId` = #{userId}
+			</if>
+ 	
+ 	
  	</select>
  	
  	<insert id="insertLike" parameterType="map">
@@ -36,12 +63,4 @@
  		WHERE `postId` = #{postId} AND `userId` = #{userId}
  	</delete>
  	
- 	<select id="selectLikeCountByPostId" resultType="int">
- 		SELECT
- 			count(*)
-		FROM
-			`like`
-		WHERE 
-			`postId` = #{postId}
- 	</select>
  </mapper>
