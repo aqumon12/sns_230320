@@ -35,6 +35,9 @@ public class LikeBO {
 		
 		// 로그인
 		return likeMapper.selectLikeCountPostIdOrUserId(postId, userId) > 0;
-		
-	} 
+	}
+	
+	public void deleteLikeByPostId(int postId) {
+		likeMapper.deleteLikeByPostId(postId);
+	}
 }

@@ -6,11 +6,11 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.sns.common.EncryptUtils;
 import com.sns.user.bo.UserBO;
@@ -59,10 +59,11 @@ public class UserRestController {
 			@RequestParam("loginId") String loginId,
 			@RequestParam("password") String password,
 			@RequestParam("name") String name,
-			@RequestParam("email") String email) {
+			@RequestParam("email") String email,
+			@RequestParam(value = "file", required = false) MultipartFile file) {
 		
 		String hashedPassword = EncryptUtils.md5(password);
-		Integer userId = userBO.addUser(loginId, hashedPassword, name, email);
+		Integer userId = userBO.addUser(loginId, hashedPassword, name, email, file);
 		
 		Map<String, Object> result = new HashMap<>();
 		if (userId != null) {
@@ -100,6 +101,7 @@ public class UserRestController {
 			session.setAttribute("userId", userEntity.getId());
 			session.setAttribute("userLoginId", userEntity.getLoginId());
 			session.setAttribute("userName", userEntity.getName());
+			session.setAttribute("userProfileImage", userEntity.getProfileImagePath());
 			result.put("code", 1);
 			result.put("result", "성공");
 		} else {
