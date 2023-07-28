@@ -47,4 +47,14 @@ public class UserController {
 		// 로그인 화면으로 이동 => redirect
 		return "redirect:/timeline/timeline_view";
 	}
+	/**
+	 * 내정보 수정
+	 * @param model
+	 * @return
+	 */
+	@GetMapping("/edit_profile_view")
+	public String editProfileView(Model model) {
+		model.addAttribute("view", "user/editProfile");
+		return "template/layout";
+	}
 }

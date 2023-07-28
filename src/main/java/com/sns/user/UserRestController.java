@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -108,6 +109,14 @@ public class UserRestController {
 			result.put("code", 500);
 			result.put("errorMessage", "존재하지 않는 사용자입니다.");
 		}
+		return result;
+	}
+	
+	@PutMapping("/edit_profile")
+	public Map<String, Object> editProfile() {
+		Map<String, Object> result = new HashMap<>();
+		result.put("code", 1);
+		result.put("result", "성공");
 		return result;
 	}
  }

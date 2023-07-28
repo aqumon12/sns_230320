@@ -10,8 +10,10 @@
 	<%-- 로그인 정보 --%>
 	<div class="login-info d-flex align-items-center mr-5">
 		<c:if test="${not empty userId}">
+		<a href="/user/edit_profile_view">
 			<img src="${userProfileImage}">
-			<span class="text-white">${userName}님 안녕하세요</span>
+			<span class="text-white">${userName}</span>
+		</a>
 			<a href="/user/sign_out" class="ml-2 text-white font-weight-bold">로그아웃</a>
 		</c:if>
 		<c:if test="${empty userId}">
